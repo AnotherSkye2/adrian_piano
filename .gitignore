@@ -361,3 +361,12 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Assets/Scripts/GameInput.cs
+/Assets/Scripts/NoteAnimator.cs
+/Assets/Scripts/NoteObject.cs
+/Assets/Scripts/RowObject.cs
+/Assets/Scripts/ScoreController.cs
+/Assets/Scripts/ScoreVisual.cs
+/Assets/Prefabs/Note.prefab
+/Assets/Prefabs/Row.prefab
+/Assets/pngegg.png
