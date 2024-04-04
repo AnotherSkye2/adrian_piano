@@ -14,6 +14,8 @@ public class ScoreController : MonoBehaviour {
 	private void RowObject_OnNoteHitOrMiss(object sender, RowObject.OnNoteHitOrMissEventArgs e) {
         if (e.noteHit) {
 			scoreCount++;
+		} else {
+			scoreCount--;
 		}
 	}
 }
