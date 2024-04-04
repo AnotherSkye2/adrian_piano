@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4280180346891680794}
   - component: {fileID: 7113254940085302231}
-  - component: {fileID: 2735465725432843741}
   m_Layer: 0
   m_Name: Note
   m_TagString: Untagged
@@ -85,18 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2735465725432843741
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 513208520135120433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d876d237b7466f845ae6b9a766a879f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5812719260400663183
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,6 +93,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3892904927085077875}
+  - component: {fileID: 3157806696430828093}
+  - component: {fileID: 5206261414875103703}
   m_Layer: 0
   m_Name: NoteVisual
   m_TagString: Untagged
@@ -129,6 +118,40 @@ Transform:
   - {fileID: 4280180346891680794}
   m_Father: {fileID: 4595844067357103923}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &3157806696430828093
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5812719260400663183}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 34ff3014d590b3e4cb1a2d478a1a68ce, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5206261414875103703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5812719260400663183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d876d237b7466f845ae6b9a766a879f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noteObject: {fileID: 8618713080586839553}
 --- !u!1 &8537300358885164276
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,3 +197,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29e99fb2f6718d14399765f8b9f6d578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rowObject: {fileID: 4957674846058797900, guid: 7c12ffe46798d654caa2111de83a3298, type: 3}

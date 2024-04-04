@@ -23,11 +23,12 @@ public class RowObject : MonoBehaviour {
 
 	private void GameInput_OnKeyPress(object sender, GameInput.OnKeyPressEventArgs e) {
 		if (noteColumnInfoList.Contains(e.inputColumn)) {
-				// Note was in the inputted colum
-				OnNoteHitOrMiss?.Invoke(this, new OnNoteHitOrMissEventArgs { noteColumn = e.inputColumn, noteHit = true });
+			// Note was in the inputted colum
+			Debug.Log("OnNoteHitorMiss");
+			OnNoteHitOrMiss?.Invoke(this, new OnNoteHitOrMissEventArgs { noteColumn = e.inputColumn, noteHit = true });
+			noteColumnInfoList.Remove(e.inputColumn);
+		} else {
+			OnNoteHitOrMiss?.Invoke(this, new OnNoteHitOrMissEventArgs { noteColumn = -1, noteHit = false });
 		}
-		// Note was not in the inputted column
-		OnNoteHitOrMiss?.Invoke(this, new OnNoteHitOrMissEventArgs { noteColumn = e.inputColumn, noteHit = false });
-
 	}
 }
