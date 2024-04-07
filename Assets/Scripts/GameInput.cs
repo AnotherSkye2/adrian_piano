@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameInput : MonoBehaviour {
 
-	public event EventHandler<OnKeyPressEventArgs> OnKeyPress;
+	public event EventHandler<OnKeyPressEventArgs> OnKeyPressInput;
 	public class OnKeyPressEventArgs : EventArgs {
 		public int inputColumn;
 	}
@@ -13,16 +13,16 @@ public class GameInput : MonoBehaviour {
 	private void Update() {
 
 		if (Input.GetKeyDown(KeyCode.A)) {
-			OnKeyPress?.Invoke(this, new OnKeyPressEventArgs { inputColumn = 0 });
+			OnKeyPressInput?.Invoke(this, new OnKeyPressEventArgs { inputColumn = 0 });
 		}
 		if (Input.GetKeyDown(KeyCode.S)) {
-			OnKeyPress?.Invoke(this, new OnKeyPressEventArgs { inputColumn = 1 });
+			OnKeyPressInput?.Invoke(this, new OnKeyPressEventArgs { inputColumn = 1 });
 		}
 		if (Input.GetKeyDown(KeyCode.D)) {
-			OnKeyPress?.Invoke(this, new OnKeyPressEventArgs { inputColumn = 2 });
+			OnKeyPressInput?.Invoke(this, new OnKeyPressEventArgs { inputColumn = 2 });
 		}
 		if (Input.GetKeyDown(KeyCode.F)) {
-			OnKeyPress?.Invoke(this, new OnKeyPressEventArgs { inputColumn = 3 });
+			OnKeyPressInput?.Invoke(this, new OnKeyPressEventArgs { inputColumn = 3 });
 		}
 	}
 

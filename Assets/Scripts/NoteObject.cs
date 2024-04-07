@@ -9,8 +9,8 @@ public class NoteObject : MonoBehaviour {
 
 	public event EventHandler OnNoteHit;
 
-	public RowObject rowObject;
-
+	private RowObject rowObject;
+	
 	[SerializeField] private int noteColumn;
 
 	private void Start () {
@@ -24,6 +24,10 @@ public class NoteObject : MonoBehaviour {
 			rowObject.OnNoteHitOrMiss -= RowObject_OnNoteHitOrMiss;
 			DestroySelf();
 		}	
+	}
+
+	public void SetRowObject(RowObject rowObject) {
+		this.rowObject = rowObject;
 	}
 
 	private void DestroySelf () {

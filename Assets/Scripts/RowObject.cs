@@ -13,15 +13,14 @@ public class RowObject : MonoBehaviour {
 	}
 
 	[SerializeField] private GameInput gameInput;
-
 	public List<int> noteColumnInfoList;
 
 
 	public void Start() {
-		gameInput.OnKeyPress += GameInput_OnKeyPress;
+		gameInput.OnKeyPressInput += GameInput_OnKeyPressInput;
 	}
 
-	private void GameInput_OnKeyPress(object sender, GameInput.OnKeyPressEventArgs e) {
+	private void GameInput_OnKeyPressInput(object sender, GameInput.OnKeyPressEventArgs e) {
 		if (noteColumnInfoList.Contains(e.inputColumn)) {
 			// Note was in the inputted colum
 			Debug.Log("OnNoteHitorMiss");
@@ -31,4 +30,9 @@ public class RowObject : MonoBehaviour {
 			OnNoteHitOrMiss?.Invoke(this, new OnNoteHitOrMissEventArgs { noteColumn = -1, noteHit = false });
 		}
 	}
+
+	public void SetGameInput(GameInput gameInput) {
+		this.gameInput = gameInput;
+	}
+
 }
