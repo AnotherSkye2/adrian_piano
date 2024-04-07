@@ -2,37 +2,38 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static GameInput;
 
 public class RowObject : MonoBehaviour {
 
 	public event EventHandler<OnNoteHitOrMissEventArgs> OnNoteHitOrMiss;
 	public class OnNoteHitOrMissEventArgs : EventArgs {
-		public int noteColumn;
 		public bool noteHit;
 	}
 
-	[SerializeField] private GameInput gameInput;
-	public List<int> noteColumnInfoList;
+	public Dictionary<int, NoteObject> noteColumnInfoDict = new Dictionary<int, NoteObject>();
+
+	private int rowId;
 
 
-	public void Start() {
-		gameInput.OnKeyPressInput += GameInput_OnKeyPressInput;
-	}
-
-	private void GameInput_OnKeyPressInput(object sender, GameInput.OnKeyPressEventArgs e) {
-		if (noteColumnInfoList.Contains(e.inputColumn)) {
-			// Note was in the inputted colum
-			Debug.Log("OnNoteHitorMiss");
-			OnNoteHitOrMiss?.Invoke(this, new OnNoteHitOrMissEventArgs { noteColumn = e.inputColumn, noteHit = true });
-			noteColumnInfoList.Remove(e.inputColumn);
-		} else {
-			OnNoteHitOrMiss?.Invoke(this, new OnNoteHitOrMissEventArgs { noteColumn = -1, noteHit = false });
+	private void BoardController_OnRowHit(object sender, BoardController.OnRowHitEventArgs e) {
+		if (e.rowId == rowId) {
+			if (noteColumnInfoDict.ContainsKey(e.noteColumn)) {
+				noteColumnInfoDict[e.noteColumn].NoteHit();
+				noteColumnInfoDict.Remove(e.noteColumn);
+				OnNoteHitOrMiss?.Invoke(this, new OnNoteHitOrMissEventArgs { noteHit = true });
+			} else {
+				OnNoteHitOrMiss?.Invoke(this, new OnNoteHitOrMissEventArgs { noteHit = false });
+			}
 		}
 	}
 
-	public void SetGameInput(GameInput gameInput) {
-		this.gameInput = gameInput;
+	public void SetRowId(int rowId) {
+		this.rowId = rowId;
 	}
+
+	public void SetBoardControllerSubscriber(BoardController boardController) {
+		boardController.OnRowHit += BoardController_OnRowHit;
+	}
+
 
 }
