@@ -6,13 +6,10 @@ using UnityEngine;
 
 public class NoteAndRowSpawner : MonoBehaviour {
 
-	[SerializeField] Dictionary<int,Transform> prefabDict;
+	[SerializeField] List<Transform> prefabList;
 	[SerializeField] GameInput gameInput;
-	[SerializeField] Transform rowPrefab;
-	[SerializeField] Transform notePrefab;
 	
 	static readonly string textFile = @".\NoteMaps\NoteMap1.txt";
-
 	private string[] rowObjectArray;
 	private float rowSpawnOffset;
 
@@ -22,12 +19,13 @@ public class NoteAndRowSpawner : MonoBehaviour {
 	}
 
 	private void Start () {
+
 	}
 
 
 	private void RowSpawner(string[] rowObjectArray) {
 		foreach (string row in rowObjectArray) {
-			Transform rowObjectTransform = Instantiate(rowPrefab);
+			Transform rowObjectTransform = Instantiate(prefabList[0]);
 			RowObject rowObject = rowObjectTransform.GetComponent<RowObject>();
 			rowObject.SetGameInput(gameInput);
 
@@ -45,7 +43,7 @@ public class NoteAndRowSpawner : MonoBehaviour {
 		foreach (string noteString in noteList) {
 			int.TryParse(noteString, out int noteInt);
 			if (noteInt != 0) {
-				Transform noteObjectTransform = Instantiate(notePrefab);
+				Transform noteObjectTransform = Instantiate(prefabList[1]);
 				NoteObject noteObject = noteObjectTransform.GetComponent<NoteObject>();
 				noteObject.SetRowObject(rowParent);
 
