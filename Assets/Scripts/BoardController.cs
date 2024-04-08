@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using static GameInput;
 
 public class BoardController : MonoBehaviour {
 
@@ -26,7 +28,7 @@ public class BoardController : MonoBehaviour {
 
 	private void GameInput_OnKeyPressInput(object sender, GameInput.OnKeyPressEventArgs e) {
 		OnRowHit?.Invoke(this, new OnRowHitEventArgs {
-			noteColumn = e.inputColumn,
+			noteColumn = (int)e.inputColumn
 		});
 	}
 

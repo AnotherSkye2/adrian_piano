@@ -14,16 +14,21 @@ public class RowObject : MonoBehaviour {
 
 	private BoardController boardController;
 	private bool subscribed;
+
 	private float rowSpeed;
+	
 	private Vector3 boardTrigger = new Vector3(0, -1, 0);
 	private Vector3 boardEntryPoint = new Vector3(0, 5, 0);
 
 	private void Update() {
+		MoveRow();
+	}
+
+	private void LateUpdate() {
 		if (transform.position.y <= boardEntryPoint.y && !subscribed) {
 			boardController.OnRowHit += BoardController_OnRowHit;
 			subscribed = true;
 		}
-		MoveRow();
 	}
 
 	private void BoardController_OnRowHit(object sender, BoardController.OnRowHitEventArgs e) {

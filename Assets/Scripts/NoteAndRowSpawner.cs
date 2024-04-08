@@ -59,7 +59,6 @@ public class NoteAndRowSpawner : MonoBehaviour {
 
 	private string[] GetRowObjectArray() {
 		if (File.Exists(textFile)) {
-			// Read a text file line by line.
 			string[] rowObjectArray = File.ReadAllLines(textFile);
 			return rowObjectArray;
 		}

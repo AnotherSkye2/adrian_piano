@@ -1,0 +1,94 @@
+{
+    "name": "KeyboardInputActions",
+    "maps": [
+        {
+            "name": "Keyboard",
+            "id": "d0fcb22b-23ec-47e9-bc19-6be679b176f9",
+            "actions": [
+                {
+                    "name": "NoteColumn0",
+                    "type": "Button",
+                    "id": "0227609d-46a0-49dc-955b-9a2a40bd25d4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "NoteColumn1",
+                    "type": "Button",
+                    "id": "25892a98-ce81-4689-89d7-201ec4950ef8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "NoteColumn2",
+                    "type": "Button",
+                    "id": "463b1a59-ddcf-4cab-86fb-7d668156e8ba",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "NoteColumn3",
+                    "type": "Button",
+                    "id": "0b8a71ce-4bb4-474b-94be-7bff3b6278e0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "13cb20ad-e392-4fc4-a7d0-c575f6eeb419",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "Scale(factor=0)",
+                    "groups": "",
+                    "action": "NoteColumn0",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0b06ae8b-b71a-465d-9cf2-d856a4ab1de3",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "Scale",
+                    "groups": "",
+                    "action": "NoteColumn1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a5d9d49e-a108-4ceb-bdb6-0e9ca3d1942b",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "Scale(factor=2)",
+                    "groups": "",
+                    "action": "NoteColumn2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cd6f00c4-fe9f-46d9-a145-ce07fa106362",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "Scale(factor=3)",
+                    "groups": "",
+                    "action": "NoteColumn3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
