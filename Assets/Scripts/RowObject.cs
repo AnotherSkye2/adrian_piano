@@ -2,37 +2,55 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static GameInput;
 
 public class RowObject : MonoBehaviour {
 
 	public event EventHandler<OnNoteHitOrMissEventArgs> OnNoteHitOrMiss;
 	public class OnNoteHitOrMissEventArgs : EventArgs {
-		public int noteColumn;
 		public bool noteHit;
 	}
 
-	[SerializeField] private GameInput gameInput;
-	public List<int> noteColumnInfoList;
+	public Dictionary<int, NoteObject> noteColumnInfoDict = new Dictionary<int, NoteObject>();
 
+	private BoardController boardController;
+	private bool subscribed;
 
-	public void Start() {
-		gameInput.OnKeyPressInput += GameInput_OnKeyPressInput;
+	private float rowSpeed;
+	
+	private Vector3 boardTrigger = new Vector3(0, -1, 0);
+	private Vector3 boardEntryPoint = new Vector3(0, 5, 0);
+
+	private void Update() {
+		MoveRow();
 	}
 
-	private void GameInput_OnKeyPressInput(object sender, GameInput.OnKeyPressEventArgs e) {
-		if (noteColumnInfoList.Contains(e.inputColumn)) {
-			// Note was in the inputted colum
-			Debug.Log("OnNoteHitorMiss");
-			OnNoteHitOrMiss?.Invoke(this, new OnNoteHitOrMissEventArgs { noteColumn = e.inputColumn, noteHit = true });
-			noteColumnInfoList.Remove(e.inputColumn);
-		} else {
-			OnNoteHitOrMiss?.Invoke(this, new OnNoteHitOrMissEventArgs { noteColumn = -1, noteHit = false });
+	private void LateUpdate() {
+		if (transform.position.y <= boardEntryPoint.y && !subscribed) {
+			boardController.OnRowHit += BoardController_OnRowHit;
+			subscribed = true;
 		}
 	}
 
-	public void SetGameInput(GameInput gameInput) {
-		this.gameInput = gameInput;
+	private void BoardController_OnRowHit(object sender, BoardController.OnRowHitEventArgs e) {
+		if (transform.position.y <= boardTrigger.y + 0.5f && transform.position.y >= boardTrigger.y - 0.5f) {
+			if (noteColumnInfoDict.ContainsKey(e.noteColumn)) {
+				noteColumnInfoDict[e.noteColumn].NoteHit();
+				noteColumnInfoDict.Remove(e.noteColumn);
+				OnNoteHitOrMiss?.Invoke(this, new OnNoteHitOrMissEventArgs { noteHit = true });
+			} else {
+				OnNoteHitOrMiss?.Invoke(this, new OnNoteHitOrMissEventArgs { noteHit = false });
+			}
+		}
+	}
+
+	private void MoveRow() {
+		transform.position += -transform.up * rowSpeed * Time.deltaTime;
+	}
+
+
+	public void SetRowData(float rowSpeed, BoardController boardController) {
+		this.rowSpeed = rowSpeed;
+		this.boardController = boardController;
 	}
 
 }

@@ -7,23 +7,29 @@ public class GameInput : MonoBehaviour {
 
 	public event EventHandler<OnKeyPressEventArgs> OnKeyPressInput;
 	public class OnKeyPressEventArgs : EventArgs {
-		public int inputColumn;
+		public float inputColumn;
 	}
 
-	private void Update() {
+	private void Start() {
+		KeyboardInputActions keyboardInputActions = new KeyboardInputActions();
+		keyboardInputActions.Keyboard.Enable();
 
-		if (Input.GetKeyDown(KeyCode.A)) {
-			OnKeyPressInput?.Invoke(this, new OnKeyPressEventArgs { inputColumn = 0 });
-		}
-		if (Input.GetKeyDown(KeyCode.S)) {
-			OnKeyPressInput?.Invoke(this, new OnKeyPressEventArgs { inputColumn = 1 });
-		}
-		if (Input.GetKeyDown(KeyCode.D)) {
-			OnKeyPressInput?.Invoke(this, new OnKeyPressEventArgs { inputColumn = 2 });
-		}
-		if (Input.GetKeyDown(KeyCode.F)) {
-			OnKeyPressInput?.Invoke(this, new OnKeyPressEventArgs { inputColumn = 3 });
-		}
+		keyboardInputActions.Keyboard.NoteColumn0.performed += ctx =>
+		OnKeyPressInput?.Invoke(this, new OnKeyPressEventArgs {
+			inputColumn = ctx.ReadValue<float>()
+		});
+		keyboardInputActions.Keyboard.NoteColumn1.performed += ctx =>
+		OnKeyPressInput?.Invoke(this, new OnKeyPressEventArgs {
+			inputColumn = ctx.ReadValue<float>()
+		}) ;
+		keyboardInputActions.Keyboard.NoteColumn2.performed += ctx =>
+		OnKeyPressInput?.Invoke(this, new OnKeyPressEventArgs {
+		inputColumn = ctx.ReadValue<float>()
+		});
+		keyboardInputActions.Keyboard.NoteColumn3.performed += ctx =>
+		OnKeyPressInput?.Invoke(this, new OnKeyPressEventArgs {
+		inputColumn = ctx.ReadValue<float>()
+		});
 	}
 
 }

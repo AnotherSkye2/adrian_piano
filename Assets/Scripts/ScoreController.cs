@@ -5,16 +5,17 @@ using UnityEngine;
 
 public class ScoreController : MonoBehaviour {
 
-    [SerializeField] private RowObject rowObject;
+    [SerializeField] private BoardController boardController;
 	public int scoreCount;
 	void Start() {
-		rowObject.OnNoteHitOrMiss += RowObject_OnNoteHitOrMiss;
+		boardController.OnNoteHitOrMissScore += BoardController_OnNoteHitOrMissScore;
 	}
 
-	private void RowObject_OnNoteHitOrMiss(object sender, RowObject.OnNoteHitOrMissEventArgs e) {
+	private void BoardController_OnNoteHitOrMissScore(object sender, BoardController.OnNoteHitOrMissScoreEventArgs e) {
 		if (e.noteHit) {
 			scoreCount++;
-		} else {
+		}
+		else {
 			scoreCount--;
 		}
 	}

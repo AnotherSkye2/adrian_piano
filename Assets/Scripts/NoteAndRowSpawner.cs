@@ -8,56 +8,57 @@ public class NoteAndRowSpawner : MonoBehaviour {
 
 	[SerializeField] List<Transform> prefabList;
 	[SerializeField] GameInput gameInput;
+	[SerializeField] BoardController boardController;
 	
 	static readonly string textFile = @".\NoteMaps\NoteMap1.txt";
+
 	private string[] rowObjectArray;
-	private float rowSpawnOffset;
+	private float rowSpawnOffset = 6f;
+	private float rowSpeed;
 
 	private void Awake() {
 		rowObjectArray = GetRowObjectArray();
-		RowSpawner(rowObjectArray);		
-	}
-
-	private void Start () {
-
+		rowObjectArray = GetHeader(rowObjectArray);
+		RowSpawner(rowObjectArray);
 	}
 
 
 	private void RowSpawner(string[] rowObjectArray) {
-		foreach (string row in rowObjectArray) {
+		foreach (string rowInfo in rowObjectArray) {
 			Transform rowObjectTransform = Instantiate(prefabList[0]);
 			RowObject rowObject = rowObjectTransform.GetComponent<RowObject>();
-			rowObject.SetGameInput(gameInput);
+			boardController.AddRowObjectSubscriber(rowObject);
+			rowObject.SetRowData(rowSpeed, boardController);
 
 			rowObject.transform.position = new Vector3(0, rowSpawnOffset, 0);
 
-			NoteSpawner(row, rowObject);
-			rowSpawnOffset++;
-			Debug.Log(rowSpawnOffset);
+			NoteSpawner(rowInfo, rowObject);
+			rowSpawnOffset += 3f;
 		}
 	}
 
-	private void NoteSpawner(string row, RowObject rowParent) {
-		string[] noteList = row.Split(",");
-		float noteOffset = -4f;
+	private void NoteSpawner(string rowInfo, RowObject rowParent) {
+		string[] noteList = rowInfo.Split(",");
+		float noteOffset = -3f;
+		int i = 0;
 		foreach (string noteString in noteList) {
 			int.TryParse(noteString, out int noteInt);
 			if (noteInt != 0) {
 				Transform noteObjectTransform = Instantiate(prefabList[1]);
 				NoteObject noteObject = noteObjectTransform.GetComponent<NoteObject>();
-				noteObject.SetRowObject(rowParent);
 
 				noteObject.transform.parent = rowParent.transform;
 				noteObject.transform.localPosition = new Vector3(noteOffset, 0, 0);
 
-			}
+				rowParent.noteColumnInfoDict.Add(i, noteObject);
+			}	
+			i++;
 			noteOffset += 2f;
 		}
 	}
 
-	public string[] GetRowObjectArray() {
+	private string[] GetRowObjectArray() {
 		if (File.Exists(textFile)) {
-			// Read a text file line by line.
 			string[] rowObjectArray = File.ReadAllLines(textFile);
 			return rowObjectArray;
 		}
@@ -65,5 +66,16 @@ public class NoteAndRowSpawner : MonoBehaviour {
 		return null;
 	}
 
-
+	private string[] GetHeader(string[] rowObjectArray) {
+		List<int> headerInfoIntigerList = new List<int> { };
+		string headerInfoString = rowObjectArray[0];
+		string[] headerInfoArray = headerInfoString.Split(",");
+		foreach (string headerInfo in headerInfoArray) {
+			int.TryParse(headerInfo, out int headerInfoIntiger);
+			headerInfoIntigerList.Add(headerInfoIntiger);
+		}
+		rowSpeed = headerInfoIntigerList[0];
+		return rowObjectArray[1..] ;
+	}
 }
+
