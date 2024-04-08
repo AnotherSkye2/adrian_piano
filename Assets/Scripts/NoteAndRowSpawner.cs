@@ -11,36 +11,35 @@ public class NoteAndRowSpawner : MonoBehaviour {
 	[SerializeField] BoardController boardController;
 	
 	static readonly string textFile = @".\NoteMaps\NoteMap1.txt";
+
 	private string[] rowObjectArray;
-	private float rowSpawnOffset;
+	private float rowSpawnOffset = 6f;
+	private float rowSpeed;
 
 	private void Awake() {
 		rowObjectArray = GetRowObjectArray();
+		rowObjectArray = GetHeader(rowObjectArray);
 		RowSpawner(rowObjectArray);
 	}
 
 
 	private void RowSpawner(string[] rowObjectArray) {
-		int i = 0;
 		foreach (string rowInfo in rowObjectArray) {
 			Transform rowObjectTransform = Instantiate(prefabList[0]);
 			RowObject rowObject = rowObjectTransform.GetComponent<RowObject>();
-			rowObject.SetBoardControllerSubscriber(boardController);
-			rowObject.SetRowId(i);
 			boardController.AddRowObjectSubscriber(rowObject);
+			rowObject.SetRowData(rowSpeed, boardController);
 
 			rowObject.transform.position = new Vector3(0, rowSpawnOffset, 0);
 
 			NoteSpawner(rowInfo, rowObject);
 			rowSpawnOffset += 3f;
-			Debug.Log(rowSpawnOffset);
-			i++;
 		}
 	}
 
 	private void NoteSpawner(string rowInfo, RowObject rowParent) {
 		string[] noteList = rowInfo.Split(",");
-		float noteOffset = -4f;
+		float noteOffset = -3f;
 		int i = 0;
 		foreach (string noteString in noteList) {
 			int.TryParse(noteString, out int noteInt);
@@ -58,7 +57,7 @@ public class NoteAndRowSpawner : MonoBehaviour {
 		}
 	}
 
-	public string[] GetRowObjectArray() {
+	private string[] GetRowObjectArray() {
 		if (File.Exists(textFile)) {
 			// Read a text file line by line.
 			string[] rowObjectArray = File.ReadAllLines(textFile);
@@ -68,5 +67,16 @@ public class NoteAndRowSpawner : MonoBehaviour {
 		return null;
 	}
 
-
+	private string[] GetHeader(string[] rowObjectArray) {
+		List<int> headerInfoIntigerList = new List<int> { };
+		string headerInfoString = rowObjectArray[0];
+		string[] headerInfoArray = headerInfoString.Split(",");
+		foreach (string headerInfo in headerInfoArray) {
+			int.TryParse(headerInfo, out int headerInfoIntiger);
+			headerInfoIntigerList.Add(headerInfoIntiger);
+		}
+		rowSpeed = headerInfoIntigerList[0];
+		return rowObjectArray[1..] ;
+	}
 }
+

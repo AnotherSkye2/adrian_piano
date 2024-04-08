@@ -6,8 +6,9 @@ using UnityEngine;
 public class BoardController : MonoBehaviour {
 
 	// RowObject subscribes to BoardController GameInput event
-	// Refcator input registering
 	// get the RowObject moving + timer 
+
+	[SerializeField] private GameInput gameInput;
 
 	public event EventHandler<OnNoteHitOrMissScoreEventArgs> OnNoteHitOrMissScore;
 	public class OnNoteHitOrMissScoreEventArgs : EventArgs {
@@ -16,12 +17,8 @@ public class BoardController : MonoBehaviour {
 
 	public event EventHandler<OnRowHitEventArgs> OnRowHit;
 	public class OnRowHitEventArgs : EventArgs {
-		public int rowId;
 		public int noteColumn;
 	}
-
-	[SerializeField] private GameInput gameInput;
-
 
 	public void Start() {
 		gameInput.OnKeyPressInput += GameInput_OnKeyPressInput;
@@ -29,7 +26,6 @@ public class BoardController : MonoBehaviour {
 
 	private void GameInput_OnKeyPressInput(object sender, GameInput.OnKeyPressEventArgs e) {
 		OnRowHit?.Invoke(this, new OnRowHitEventArgs {
-			rowId = 0,
 			noteColumn = e.inputColumn,
 		});
 	}
