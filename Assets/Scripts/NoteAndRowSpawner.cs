@@ -9,15 +9,16 @@ public class NoteAndRowSpawner : MonoBehaviour {
 	[SerializeField] List<Transform> prefabList;
 	[SerializeField] GameInput gameInput;
 	[SerializeField] BoardController boardController;
-	
-	static readonly string textFile = @".\NoteMaps\NoteMap1.txt";
+
+	static readonly string textFile = Application.streamingAssetsPath + @"/NoteMaps/NoteMap1.txt";
 
 	private string[] rowObjectArray;
 	private float rowSpawnOffset = 6f;
 	private float rowFrequency;
-	private float rowApproachRate = 5f;
+	private float rowApproachRate = 6f;
 
 	private void Awake() {
+		Debug.Log(textFile);
 		rowObjectArray = GetRowObjectArray();
 		rowObjectArray = GetHeader(rowObjectArray);
 		RowSpawner(rowObjectArray);
