@@ -14,7 +14,8 @@ public class NoteAndRowSpawner : MonoBehaviour {
 
 	private string[] rowObjectArray;
 	private float rowSpawnOffset = 6f;
-	private float rowSpeed;
+	private float rowFrequency;
+	private float rowApproachRate = 5f;
 
 	private void Awake() {
 		rowObjectArray = GetRowObjectArray();
@@ -28,12 +29,12 @@ public class NoteAndRowSpawner : MonoBehaviour {
 			Transform rowObjectTransform = Instantiate(prefabList[0]);
 			RowObject rowObject = rowObjectTransform.GetComponent<RowObject>();
 			boardController.AddRowObjectSubscriber(rowObject);
-			rowObject.SetRowData(rowSpeed, boardController);
+			rowObject.SetRowData(rowApproachRate, boardController);
 
 			rowObject.transform.position = new Vector3(0, rowSpawnOffset, 0);
 
 			NoteSpawner(rowInfo, rowObject);
-			rowSpawnOffset += 3f;
+			rowSpawnOffset += rowApproachRate/rowFrequency;
 		}
 	}
 
@@ -74,7 +75,7 @@ public class NoteAndRowSpawner : MonoBehaviour {
 			int.TryParse(headerInfo, out int headerInfoIntiger);
 			headerInfoIntigerList.Add(headerInfoIntiger);
 		}
-		rowSpeed = headerInfoIntigerList[0];
+		rowFrequency = headerInfoIntigerList[0];
 		return rowObjectArray[1..] ;
 	}
 }

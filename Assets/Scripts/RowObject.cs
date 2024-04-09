@@ -16,8 +16,9 @@ public class RowObject : MonoBehaviour {
 	private bool subscribed;
 
 	private float rowSpeed;
+	private float noteHeight = 0.8f;
 	
-	private Vector3 boardTrigger = new Vector3(0, -1, 0);
+	private Vector3 boardTrigger = new Vector3(0, -3.8f, 0);
 	private Vector3 boardEntryPoint = new Vector3(0, 5, 0);
 
 	private void Update() {
@@ -32,7 +33,7 @@ public class RowObject : MonoBehaviour {
 	}
 
 	private void BoardController_OnRowHit(object sender, BoardController.OnRowHitEventArgs e) {
-		if (transform.position.y <= boardTrigger.y + 0.5f && transform.position.y >= boardTrigger.y - 0.5f) {
+		if (transform.position.y <= boardTrigger.y + noteHeight/2 && transform.position.y >= boardTrigger.y - noteHeight/2) {
 			if (noteColumnInfoDict.ContainsKey(e.noteColumn)) {
 				noteColumnInfoDict[e.noteColumn].NoteHit();
 				noteColumnInfoDict.Remove(e.noteColumn);
