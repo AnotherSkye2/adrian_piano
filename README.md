@@ -9,11 +9,10 @@ Just a note that this is very much a WIP, but you can have a look at the code, i
 - A working input system, using keyboard keys
 - A "Beatmap" (reffered to as Notemap) reader, which gets the info for spawning Notes and Rows
 - An object spawner, which creates Notes and Rows (A container for handling logic related to Notes)
-- 
-
-## 
+- A basic visual style
 
 
-
+### Link to the game mechanic download:  
+https://anotherskye.itch.io/adrian-piano
 ### Link to the submission:  
 https://silmamunasupp.itch.io/adrian
