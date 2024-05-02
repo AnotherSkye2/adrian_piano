@@ -9,19 +9,23 @@ public class NoteAndRowSpawner : MonoBehaviour {
 	[SerializeField] List<Transform> prefabList;
 	[SerializeField] GameInput gameInput;
 	[SerializeField] BoardController boardController;
+	[SerializeField] PlayerSettings playerSettings;
 
-	static readonly string textFile = Application.streamingAssetsPath + @"/NoteMaps/NoteMap1.txt";
+	static readonly string noteMapFile = Application.streamingAssetsPath + @"/NoteMaps/NoteMap1.txt";
 
-	private string[] rowObjectArray, rowObjectArrayWithoutHeader;
-	private float rowSpawnOffset;
+	private string[] noteMapInfoArray, noteMapInfoArrayWithoutHeader;
 	private float rowFrequency;
-	private float rowApproachRate = 12f;
+	private float rowSpawnOffset;
+	private float rowApproachRate;
+	private float noteTriggerArea = 0.15f;
 
-	private void Awake() {
-		Debug.Log(textFile);
-		rowObjectArray = GetRowObjectArray();
-		rowObjectArrayWithoutHeader = GetHeader(rowObjectArray);
-		RowSpawner(rowObjectArrayWithoutHeader);
+	private void Start() {
+		Debug.Log(noteMapFile);
+		noteMapInfoArray = GetNoteMapInfoArray();
+		noteMapInfoArrayWithoutHeader = GetHeader(noteMapInfoArray);
+		rowApproachRate = playerSettings.RowApproachRate;
+		noteTriggerArea = rowApproachRate * noteTriggerArea; //Adjust noteTrigger area to be on the noteTrigger are for the same amount of time
+		RowSpawner(noteMapInfoArrayWithoutHeader);
 	}
 
 
@@ -30,24 +34,23 @@ public class NoteAndRowSpawner : MonoBehaviour {
 			Transform rowObjectTransform = Instantiate(prefabList[0]);
 			RowObject rowObject = rowObjectTransform.GetComponent<RowObject>();
 			boardController.AddRowObjectSubscriber(rowObject);
-			rowObject.SetRowData(rowApproachRate, boardController);
-			if (rowSpawnOffset == float.PositiveInfinity) {
-				Debug.Log("inf");
-			}
+			rowObject.SetRowData(rowApproachRate, noteTriggerArea, boardController);
 			rowObject.transform.position = new Vector3(0, rowSpawnOffset, 0);
 			NoteSpawner(rowInfo, rowObject);
+
 			Debug.Log(rowApproachRate);
 			Debug.Log(rowFrequency);
 			Debug.Log(rowApproachRate / rowFrequency);
+
 			rowSpawnOffset += rowApproachRate/rowFrequency;
 		}
 	}
 
 	private void NoteSpawner(string rowInfo, RowObject rowParent) {
-		string[] noteList = rowInfo.Split(",");
+		string[] noteInfoList = rowInfo.Split(",");
 		float noteOffset = -3f;
 		int i = 0;
-		foreach (string noteString in noteList) {
+		foreach (string noteString in noteInfoList) {
 			int.TryParse(noteString, out int noteInt);
 			if (noteInt != 0) {
 				Transform noteObjectTransform = Instantiate(prefabList[1]);
@@ -62,27 +65,32 @@ public class NoteAndRowSpawner : MonoBehaviour {
 			noteOffset += 2f;
 		}
 	}
+	private string[] GetHeader(string[] noteMapInfoArray) {
+		if (File.Exists(noteMapFile)) {
+			List<float> headerInfoList = new List<float> { };
+			string headerInfoString = noteMapInfoArray[0];
+			string[] headerInfoArray = headerInfoString.Split(",");
+			foreach (string headerInfo in headerInfoArray) {
+				float.TryParse(headerInfo, out float headerInfoFloat);
+				headerInfoList.Add(headerInfoFloat);
+			}
+			rowFrequency = headerInfoList[0];
+			rowSpawnOffset = headerInfoList[1];
+			return noteMapInfoArray[1..] ;
+		} else {
+			Debug.Log("File does not exist!");
+			return null;
+		}
+	}
 
-	private string[] GetRowObjectArray() {
-		if (File.Exists(textFile)) {
-			string[] rowObjectArray = File.ReadAllLines(textFile);
-			return rowObjectArray;
+	private string[] GetNoteMapInfoArray() {
+		if (File.Exists(noteMapFile)) {
+			string[] rowInfoArray = File.ReadAllLines(noteMapFile);
+			return rowInfoArray;
 		}
 		Debug.Log("File does not exist!");
 		return null;
 	}
 
-	private string[] GetHeader(string[] rowObjectArray) {
-		List<float> headerInfoList = new List<float> { };
-		string headerInfoString = rowObjectArray[0];
-		string[] headerInfoArray = headerInfoString.Split(",");
-		foreach (string headerInfo in headerInfoArray) {
-			float.TryParse(headerInfo, out float headerInfoCharacter);
-			headerInfoList.Add(headerInfoCharacter);
-		}
-		rowFrequency = headerInfoList[0];
-		rowSpawnOffset = headerInfoList[1];
-		return rowObjectArray[1..] ;
-	}
 }
 

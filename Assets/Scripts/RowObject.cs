@@ -16,7 +16,7 @@ public class RowObject : MonoBehaviour {
 	private bool subscribed;
 
 	private float rowSpeed;
-	private float noteHeight = 0.8f;
+	private float noteTriggerArea;
 	
 	private Vector3 boardTrigger = new Vector3(0, -3.8f, 0);
 	private Vector3 boardEntryPoint = new Vector3(0, 5, 0);
@@ -33,7 +33,7 @@ public class RowObject : MonoBehaviour {
 	}
 
 	private void BoardController_OnRowHit(object sender, BoardController.OnRowHitEventArgs e) {
-		if (transform.position.y <= boardTrigger.y + noteHeight/2 && transform.position.y >= boardTrigger.y - noteHeight/2) {
+		if (transform.position.y <= boardTrigger.y + noteTriggerArea/2 && transform.position.y >= boardTrigger.y - noteTriggerArea/2) {
 			if (noteColumnInfoDict.ContainsKey(e.noteColumn)) {
 				noteColumnInfoDict[e.noteColumn].NoteHit();
 				noteColumnInfoDict.Remove(e.noteColumn);
@@ -49,8 +49,9 @@ public class RowObject : MonoBehaviour {
 	}
 
 
-	public void SetRowData(float rowSpeed, BoardController boardController) {
+	public void SetRowData(float rowSpeed, float noteTriggerArea, BoardController boardController) {
 		this.rowSpeed = rowSpeed;
+		this.noteTriggerArea = noteTriggerArea;
 		this.boardController = boardController;
 	}
 
