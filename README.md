@@ -7,7 +7,7 @@ Just a note that this is very much a WIP, but you can have a look at the code, i
 
 ## What I have made so far:  
 - A working input system, using keyboard keys
-- A "Beatmap" (reffered to as Notemap) reader, which gets the info for spawning Notes and Rows
+- A "Beatmap" (referred to as Notemap) reader, which gets the info for spawning Notes and Rows
 - An object spawner, which creates Notes and Rows (A container for handling logic related to Notes)
 - A basic visual style
 

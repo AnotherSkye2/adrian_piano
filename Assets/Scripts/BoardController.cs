@@ -16,8 +16,7 @@ public class BoardController : MonoBehaviour {
 	// row moves or Board moves?
 
 	// Visuals:
-	// note/row sprite
-	// Background
+	// particle
 
 	// New Mechanics:
 	// long Notes

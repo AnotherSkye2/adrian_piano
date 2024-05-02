@@ -12,29 +12,33 @@ public class NoteAndRowSpawner : MonoBehaviour {
 
 	static readonly string textFile = Application.streamingAssetsPath + @"/NoteMaps/NoteMap1.txt";
 
-	private string[] rowObjectArray;
-	private float rowSpawnOffset = 6f;
+	private string[] rowObjectArray, rowObjectArrayWithoutHeader;
+	private float rowSpawnOffset;
 	private float rowFrequency;
-	private float rowApproachRate = 6f;
+	private float rowApproachRate = 12f;
 
 	private void Awake() {
 		Debug.Log(textFile);
 		rowObjectArray = GetRowObjectArray();
-		rowObjectArray = GetHeader(rowObjectArray);
-		RowSpawner(rowObjectArray);
+		rowObjectArrayWithoutHeader = GetHeader(rowObjectArray);
+		RowSpawner(rowObjectArrayWithoutHeader);
 	}
 
 
-	private void RowSpawner(string[] rowObjectArray) {
-		foreach (string rowInfo in rowObjectArray) {
+	private void RowSpawner(string[] rowInfoArray) {
+		foreach (string rowInfo in rowInfoArray) {
 			Transform rowObjectTransform = Instantiate(prefabList[0]);
 			RowObject rowObject = rowObjectTransform.GetComponent<RowObject>();
 			boardController.AddRowObjectSubscriber(rowObject);
 			rowObject.SetRowData(rowApproachRate, boardController);
-
+			if (rowSpawnOffset == float.PositiveInfinity) {
+				Debug.Log("inf");
+			}
 			rowObject.transform.position = new Vector3(0, rowSpawnOffset, 0);
-
 			NoteSpawner(rowInfo, rowObject);
+			Debug.Log(rowApproachRate);
+			Debug.Log(rowFrequency);
+			Debug.Log(rowApproachRate / rowFrequency);
 			rowSpawnOffset += rowApproachRate/rowFrequency;
 		}
 	}
@@ -69,14 +73,15 @@ public class NoteAndRowSpawner : MonoBehaviour {
 	}
 
 	private string[] GetHeader(string[] rowObjectArray) {
-		List<int> headerInfoIntigerList = new List<int> { };
+		List<float> headerInfoList = new List<float> { };
 		string headerInfoString = rowObjectArray[0];
 		string[] headerInfoArray = headerInfoString.Split(",");
 		foreach (string headerInfo in headerInfoArray) {
-			int.TryParse(headerInfo, out int headerInfoIntiger);
-			headerInfoIntigerList.Add(headerInfoIntiger);
+			float.TryParse(headerInfo, out float headerInfoCharacter);
+			headerInfoList.Add(headerInfoCharacter);
 		}
-		rowFrequency = headerInfoIntigerList[0];
+		rowFrequency = headerInfoList[0];
+		rowSpawnOffset = headerInfoList[1];
 		return rowObjectArray[1..] ;
 	}
 }
